@@ -1,0 +1,36 @@
+{
+  "name": "dex-ui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc"
+  },
+  "dependencies": {
+    "@metamask/sdk-react": "^0.33.1",
+    "@purser/metamask": "^3.2.1",
+    "@purser/signer-ethers": "^1.0.4",
+    "@react-router/node": "7.13.2",
+    "@react-router/serve": "7.13.2",
+    "ethers": "^5.8.0",
+    "isbot": "^5.1.36",
+    "react": "^19.2.4",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.2.4",
+    "react-router": "7.13.2",
+    "web3": "^4.16.0"
+  },
+  "devDependencies": {
+    "@react-router/dev": "7.13.2",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^22",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.7",
+    "vite-tsconfig-paths": "^5.1.4"
+  }
+}
