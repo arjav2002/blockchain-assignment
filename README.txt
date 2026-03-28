@@ -16,3 +16,10 @@ Successful Arbitrage: 0x04f28232bd0ffdfc75aebb776e09836f034f2a3c7e0c45fcffbe5943
 Unsuccesful Arbitrage: 0x79e2089e2f1b78935904404e14af51c287e7c9429085f4d8a4c36ed948af65ea
 
 Open the UI at: https://blockchain-assignment-omega.vercel.app/
+
+∗ How to obtain or mint the tokens used in the liquidity pool: Ask someone to send them to you
+∗ How to add liquidity and receive LP tokens:
+1. If zero liquidity in the reserve -> Enter both A and B. This is the ratio that will be maintained
+2. If non-zero liquidity, enter either of A or B and the other should get populated on its own to maintain the reserve ratio.
+Click "Deposit"
+∗ How to perform swaps using the DEX -> Enter the token(X) amount you want to swap, then click the button next to the textbox labelled "Swap X"

@@ -881,6 +881,8 @@ const Dex = () => {
     const [a_d, setAd] = useState(0)
     const [b_d, setBd] = useState(0)
     const [lp_d, setLpd] = useState(0)
+    const [spotPrice, setSpotPrice] = useState(0n);
+    const [sp_d, setSpd] = useState(0n);
 
     const checkNetwork = async () => {
         if (window.ethereum) {
@@ -932,10 +934,16 @@ const Dex = () => {
         dex[functionName]().then(async (x) => setReserve(insertDecimal(x, await token.decimals()))).catch(err => console.log(err))
     }
 
-    const setDecimals = (setDecimal, hash, abi = tokenabi) => {
+    const setDecimals = (setDecimal, hash, abi = tokenabi, functionName = "decimals") => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const a = new ethers.Contract(hash, abi, provider);
-        a.decimals().then(async (x) => setDecimal(x)).catch(err => console.log(err))
+        a[functionName]().then(async (x) => setDecimal(x)).catch(err => console.log(err))
+    }
+
+    const setSpotPriceValue = () => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const a = new ethers.Contract(dexHash, dexabi, provider);
+        a.spotPrice().then(async (x) => setSpotPrice(x)).catch(err => console.log(err))
     }
 
     const resetBalances = () => {
@@ -944,9 +952,11 @@ const Dex = () => {
         setBalance(setLpTokenBalance, tokenLpHash, lptokenabi)
         setReserve(setResA, "resA", tokenAHash);
         setReserve(setResB, "resB", tokenBHash)
+        setSpotPriceValue();
         setDecimals(setAd, tokenAHash);
         setDecimals(setBd, tokenBHash)
         setDecimals(setLpd, tokenLpHash, lptokenabi)
+        setDecimals(setSpd, dexHash, dexabi, "decimals_precision");
     }
 
     useEffect(() => {
@@ -1028,6 +1038,8 @@ const Dex = () => {
                 ResA: {resA}
                 <br></br>
                 ResB: {resB}
+                <br></br>
+                Spot Price: {insertDecimal(spotPrice, Number(sp_d))}
             </div>
             <div>
                 A:
