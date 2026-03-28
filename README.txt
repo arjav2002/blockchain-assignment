@@ -23,3 +23,5 @@ Open the UI at: https://blockchain-assignment-omega.vercel.app/
 2. If non-zero liquidity, enter either of A or B and the other should get populated on its own to maintain the reserve ratio.
 Click "Deposit"
 ∗ How to perform swaps using the DEX -> Enter the token(X) amount you want to swap, then click the button next to the textbox labelled "Swap X"
+
+Demonstration: https://youtu.be/k9dJGNx7oXo
