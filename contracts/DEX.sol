@@ -107,6 +107,7 @@ contract DEX {
     function swapA(uint256 a_amt) public 
     {
         // require(a_amt > 0, "Cannot swap 0 A tokens");
+        require(a_res > 0 && b_res > 0, "Reserves are zero");
         require(a_amt <= _tokenA.balanceOf(msg.sender), "You don't have enough token A");
         bool succeeded = _tokenA.transferFrom(msg.sender, address(this), a_amt);
         require(succeeded, "Ensure enough token A has been approved");
@@ -126,6 +127,7 @@ contract DEX {
     function swapB(uint256 b_amt) public
     {
         // require(b_amt > 0, "Cannot swap 0 B tokens");
+        require(a_res > 0 && b_res > 0, "Reserves are zero");
         require(b_amt <= _tokenB.balanceOf(msg.sender), "You don't have enough token B");
         require(_tokenB.transferFrom(msg.sender, address(this), b_amt), "Ensure enough token B has been approved");
 

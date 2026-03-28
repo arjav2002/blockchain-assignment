@@ -1008,7 +1008,7 @@ const Dex = () => {
                     padding: "10px",
                     border: "1px solid black",
                     background: "lightgray"
-                }} onClick={() => swapA(Number(document.getElementById("aquant").value))}>Swap A</button>
+                }} onClick={() => swapA(BigInt(document.getElementById("aquant").value))}>Swap A</button>
                 <br></br>
                 B:
                 <input type="number" id="bquant" onChange={syncAWithRes}></input>
@@ -1016,14 +1016,14 @@ const Dex = () => {
                     padding: "10px",
                     border: "1px solid black",
                     background: "lightgray"
-                }} onClick={() => swapB(Number(document.getElementById("bquant").value))}>Swap B</button>
+                }} onClick={() => swapB(Bigint(document.getElementById("bquant").value))}>Swap B</button>
             </div>
             <div>
                 <button style={{
                     padding: "10px",
                     border: "1px solid black",
                     background: "lightgray"
-                }} onClick={() => deposit(Number(document.getElementById("aquant").value), Number(document.getElementById("bquant").value))}>Deposit</button>
+                }} onClick={() => deposit(BigInt(document.getElementById("aquant").value), BigInt(document.getElementById("bquant").value))}>Deposit</button>
             </div>
             <div>
                 LP:
@@ -1032,7 +1032,7 @@ const Dex = () => {
                     padding: "10px",
                     border: "1px solid black",
                     background: "lightgray"
-                }} onClick={() => withdraw(Number(document.getElementById("lpquant").value))}>Withdraw</button>
+                }} onClick={() => withdraw(BigInt(document.getElementById("lpquant").value))}>Withdraw</button>
             </div>
         </div>
     );
