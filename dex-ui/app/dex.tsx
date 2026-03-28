@@ -981,7 +981,7 @@ const Dex = () => {
     const withdraw = async (lp_amt) => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const dex = new ethers.Contract(dexHash, dexabi, await provider.getSigner());
-        dex.withdraw(lp_amt).then(x => resetBalances()).catch(err => console.log(err));
+        dex.withdraw(lp_amt, { gasLimit: 100_000 }).then(x => resetBalances()).catch(err => console.log(err));
     }
 
     return (
