@@ -4,10 +4,10 @@ import Web3 from 'web3';
 
 const Dex = () => {
 
-    const tokenAHash = "0x8765B9C5DF5E0d7080dd04df9d4b9962Ec17c89E";
-    const tokenBHash = "0xEDCCe3f78d90201f678B39F287FcD5E255eE70FB";
-    const tokenLpHash = "0x87b791e3b0F27276942c6e982bfbF5aBF5657e64";
-    const dexHash = "0x3D413270B7B4Bfef5034670Df927130c73296506";
+    const tokenAHash = "0x1898001a3589D9d4A7c8db74835027Fd86eA768C";
+    const tokenBHash = "0x19962d66Ac2508CEF7C4AcdAB4e94C4869Cb6A6d";
+    const tokenLpHash = "0xb2B97915E649DC95Db7ac51eE90923C34d7f6EDa";
+    const dexHash = "0x2aAb6Ecaa01C66A5b0886FAf523658E6E0eb5307";
     const dexabi = [
         {
             "inputs": [
