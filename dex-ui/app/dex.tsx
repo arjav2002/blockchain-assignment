@@ -876,8 +876,8 @@ const Dex = () => {
     const [tokenABalance, setTokenABalance] = useState(null);
     const [tokenBBalance, setTokenBBalance] = useState(null);
     const [lpTokenBalance, setLpTokenBalance] = useState(null);
-    const [resA, setResA] = useState(null);
-    const [resB, setResB] = useState(null);
+    const [resA, setResA] = useState("");
+    const [resB, setResB] = useState("");
 
     const checkNetwork = async () => {
         if (window.ethereum) {
@@ -903,9 +903,9 @@ const Dex = () => {
             ans = "0." + "0".repeat(decimals - str.length)
         }
         else {
-            ans = str.substring(0, str.length - decimals - 1) + ".";
+            ans = str.substring(0, str.length - decimals) + ".";
         }
-        return ans + str.substring(Math.max(0, str.length - decimals - 1));
+        return ans + str.substring(Math.max(0, str.length - decimals));
     }
 
     const setBalance = (setBalance, hash, abi = tokenabi) => {
@@ -950,8 +950,10 @@ const Dex = () => {
         await swap(b_amt, tokenBHash, "swapB");
     }
 
-    const deposit = async (a_amt, b_amt) => {
-        if (a_amt != Math.floor(b_amt * resA / resB) && b_amt != Math.floor(a_amt * resB / resA)) {
+    const deposit = async (a_amt: bigint, b_amt: bigint) => {
+        const resAbigint = BigInt(resA.replace(".", ""));
+        const resBbigint = BigInt(resB.replace(".", ""))
+        if (resAbigint && resBbigint && a_amt != b_amt * resAbigint / resBbigint && b_amt != a_amt * resBbigint / resAbigint) {
             alert("Quantities not in sync with res ratio");
             return;
         }
@@ -967,16 +969,20 @@ const Dex = () => {
     }
 
     const syncBWithRes = () => {
-        if (resB == 0n || resA == 0n) return;
-        const a_amt = Number(document.getElementById("aquant").value);
-        const b_amt = Math.floor(a_amt * resB / resA);
-        document.getElementById("bquant").value = b_amt;
+        const resAbigint = BigInt(resA.replace(".", ""));
+        const resBbigint = BigInt(resB.replace(".", ""))
+        if (resBbigint == 0n || resAbigint == 0n) return;
+        const a_amt = BigInt(document.getElementById("aquant").value.replace(".", ""));
+        const b_amt = BigInt(a_amt) * resBbigint / resAbigint;
+        document.getElementById("bquant").value = b_amt.toString();
     }
 
     const syncAWithRes = () => {
-        if (resB == 0n || resA == 0n) return;
-        const b_amt = Number(document.getElementById("bquant").value);
-        const a_amt = Math.floor(b_amt * resA / resB);
+        const resAbigint = BigInt(resA.replace(".", ""));
+        const resBbigint = BigInt(resB.replace(".", ""))
+        if (resBbigint == 0n || resAbigint == 0n) return;
+        const b_amt = BigInt(document.getElementById("bquant").value.replace(".", ""));
+        const a_amt = b_amt * resAbigint / resBbigint;
         document.getElementById("aquant").value = a_amt;
     }
 

@@ -126,7 +126,7 @@ function insertDecimal(n: bigint, decimals: number): string {
     else {
         ans = str.substring(0, str.length - decimals) + ".";
     }
-    return ans + str.substring(Math.max(0, str.length - decimals - 1));
+    return ans + str.substring(Math.max(0, str.length - decimals));
 }
 
 async function main() {
