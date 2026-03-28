@@ -967,14 +967,14 @@ const Dex = () => {
     }
 
     const syncBWithRes = () => {
-        if (resB == 0 || resA == 0) return;
+        if (resB == 0n || resA == 0n) return;
         const a_amt = Number(document.getElementById("aquant").value);
         const b_amt = Math.floor(a_amt * resB / resA);
         document.getElementById("bquant").value = b_amt;
     }
 
     const syncAWithRes = () => {
-        if (resB == 0 || resA == 0) return;
+        if (resB == 0n || resA == 0n) return;
         const b_amt = Number(document.getElementById("bquant").value);
         const a_amt = Math.floor(b_amt * resA / resB);
         document.getElementById("aquant").value = a_amt;
