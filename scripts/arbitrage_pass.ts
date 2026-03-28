@@ -29,7 +29,6 @@ async function main() {
     if (bal) await doTransaction(publicClient, await dex.write.withdraw([bal]));
     const bal2 = await tokenLP2.read.balanceOf([deployer.account.address]);
     if (bal2) await doTransaction(publicClient, await dex2.write.withdraw([bal2]));
-    console.log(`Cleared both DEXes`);
 
     await doTransaction(publicClient, await tokenA.write.approve([dex.address, 10000n]))
     await doTransaction(publicClient, await tokenA.write.approve([dex2.address, 10000n]));

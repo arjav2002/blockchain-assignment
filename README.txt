@@ -12,7 +12,7 @@ Liquidity Addition:
 Liquidity Removal: 
 Swap A->B: 
 Swap B->A: 
-Successful Arbitrage: 0x28711fd5fcb5224961f4b3ae83315aa1e2906ac33e761bd91ae1aeb1f4c0a121
-Unsuccesful Arbitrage: 0x82ea5ac72b2a857bfc1e6fdcbbd22d290f13409f06ed5d31fc0dfe6743280fea
+Successful Arbitrage: 0x04f28232bd0ffdfc75aebb776e09836f034f2a3c7e0c45fcffbe59434fad312e
+Unsuccesful Arbitrage: 0x79e2089e2f1b78935904404e14af51c287e7c9429085f4d8a4c36ed948af65ea
 
 Open the UI at: https://blockchain-assignment-omega.vercel.app/

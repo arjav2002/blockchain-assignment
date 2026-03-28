@@ -903,7 +903,7 @@ const Dex = () => {
             ans = "0." + "0".repeat(decimals - str.length)
         }
         else {
-            ans = str.substring(0, str.length - decimals) + ".";
+            ans = str.substring(0, str.length - decimals - 1) + ".";
         }
         return ans + str.substring(Math.max(0, str.length - decimals - 1));
     }
@@ -967,12 +967,14 @@ const Dex = () => {
     }
 
     const syncBWithRes = () => {
+        if (resB == 0 || resA == 0) return;
         const a_amt = Number(document.getElementById("aquant").value);
         const b_amt = Math.floor(a_amt * resB / resA);
         document.getElementById("bquant").value = b_amt;
     }
 
     const syncAWithRes = () => {
+        if (resB == 0 || resA == 0) return;
         const b_amt = Number(document.getElementById("bquant").value);
         const a_amt = Math.floor(b_amt * resA / resB);
         document.getElementById("aquant").value = a_amt;
