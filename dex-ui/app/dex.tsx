@@ -878,6 +878,9 @@ const Dex = () => {
     const [lpTokenBalance, setLpTokenBalance] = useState(null);
     const [resA, setResA] = useState("");
     const [resB, setResB] = useState("");
+    const [a_d, setAd] = useState(0)
+    const [b_d, setBd] = useState(0)
+    const [lp_d, setLpd] = useState(0)
 
     const checkNetwork = async () => {
         if (window.ethereum) {
@@ -908,6 +911,14 @@ const Dex = () => {
         return ans + str.substring(Math.max(0, str.length - decimals));
     }
 
+    function convertToBasicUnit(amt: string, decimals: number): bigint {
+        if (!amt.includes('.')) amt += '.';
+        amt = amt.trim();
+        while (amt[amt.length - 1] == '0') amt = amt.substring(0, amt.length - 1);
+        const preExistingdecimals = amt.length - 1 - amt.indexOf('.');
+        return BigInt(amt.replace(".", "")) * 10n ** BigInt(decimals - preExistingdecimals);
+    }
+
     const setBalance = (setBalance, hash, abi = tokenabi) => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const a = new ethers.Contract(hash, abi, provider);
@@ -921,12 +932,21 @@ const Dex = () => {
         dex[functionName]().then(async (x) => setReserve(insertDecimal(x, await token.decimals()))).catch(err => console.log(err))
     }
 
+    const setDecimals = (setDecimal, hash, abi = tokenabi) => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const a = new ethers.Contract(hash, abi, provider);
+        a.decimals().then(async (x) => setDecimal(x)).catch(err => console.log(err))
+    }
+
     const resetBalances = () => {
         setBalance(setTokenABalance, tokenAHash)
         setBalance(setTokenBBalance, tokenBHash);
         setBalance(setLpTokenBalance, tokenLpHash, lptokenabi)
         setReserve(setResA, "resA", tokenAHash);
         setReserve(setResB, "resB", tokenBHash)
+        setDecimals(setAd, tokenAHash);
+        setDecimals(setBd, tokenBHash)
+        setDecimals(setLpd, tokenLpHash, lptokenabi)
     }
 
     useEffect(() => {
@@ -951,8 +971,8 @@ const Dex = () => {
     }
 
     const deposit = async (a_amt: bigint, b_amt: bigint) => {
-        const resAbigint = BigInt(resA.replace(".", ""));
-        const resBbigint = BigInt(resB.replace(".", ""))
+        const resAbigint = convertToBasicUnit(resA, a_d);
+        const resBbigint = convertToBasicUnit(resB, b_d);
         if (resAbigint && resBbigint && a_amt != b_amt * resAbigint / resBbigint && b_amt != a_amt * resBbigint / resAbigint) {
             alert("Quantities not in sync with res ratio");
             return;
@@ -969,21 +989,21 @@ const Dex = () => {
     }
 
     const syncBWithRes = () => {
-        const resAbigint = BigInt(resA.replace(".", ""));
-        const resBbigint = BigInt(resB.replace(".", ""))
+        const resAbigint = convertToBasicUnit(resA, a_d);
+        const resBbigint = convertToBasicUnit(resB, b_d);
         if (resBbigint == 0n || resAbigint == 0n) return;
-        const a_amt = BigInt(document.getElementById("aquant").value.replace(".", ""));
+        const a_amt = convertToBasicUnit(document.getElementById("aquant").value.toString(), a_d);
         const b_amt = BigInt(a_amt) * resBbigint / resAbigint;
-        document.getElementById("bquant").value = b_amt.toString();
+        document.getElementById("bquant").value = insertDecimal(b_amt, b_d);
     }
 
     const syncAWithRes = () => {
-        const resAbigint = BigInt(resA.replace(".", ""));
-        const resBbigint = BigInt(resB.replace(".", ""))
+        const resAbigint = convertToBasicUnit(resA, a_d);
+        const resBbigint = convertToBasicUnit(resB, b_d);
         if (resBbigint == 0n || resAbigint == 0n) return;
-        const b_amt = BigInt(document.getElementById("bquant").value.replace(".", ""));
+        const b_amt = convertToBasicUnit(document.getElementById("bquant").value.toString(), b_d);
         const a_amt = b_amt * resAbigint / resBbigint;
-        document.getElementById("aquant").value = a_amt;
+        document.getElementById("aquant").value = insertDecimal(a_amt, a_d);
     }
 
     const withdraw = async (lp_amt) => {
@@ -1016,7 +1036,7 @@ const Dex = () => {
                     padding: "10px",
                     border: "1px solid black",
                     background: "lightgray"
-                }} onClick={() => swapA(BigInt(document.getElementById("aquant").value))}>Swap A</button>
+                }} onClick={() => swapA(convertToBasicUnit(document.getElementById("aquant").value.toString(), a_d))}>Swap A</button>
                 <br></br>
                 B:
                 <input type="number" id="bquant" onChange={syncAWithRes}></input>
@@ -1024,14 +1044,15 @@ const Dex = () => {
                     padding: "10px",
                     border: "1px solid black",
                     background: "lightgray"
-                }} onClick={() => swapB(Bigint(document.getElementById("bquant").value))}>Swap B</button>
+                }} onClick={() => swapB(convertToBasicUnit(document.getElementById("bquant").value.toString(), b_d))}>Swap B</button>
             </div>
             <div>
                 <button style={{
                     padding: "10px",
                     border: "1px solid black",
                     background: "lightgray"
-                }} onClick={() => deposit(BigInt(document.getElementById("aquant").value), BigInt(document.getElementById("bquant").value))}>Deposit</button>
+                }} onClick={() => deposit(convertToBasicUnit(document.getElementById("aquant").value.toString(), a_d),
+                    convertToBasicUnit(document.getElementById("bquant").value.toString(), b_d))}>Deposit</button>
             </div>
             <div>
                 LP:
@@ -1040,7 +1061,7 @@ const Dex = () => {
                     padding: "10px",
                     border: "1px solid black",
                     background: "lightgray"
-                }} onClick={() => withdraw(BigInt(document.getElementById("lpquant").value))}>Withdraw</button>
+                }} onClick={() => withdraw(convertToBasicUnit(document.getElementById("lpquant").value.toString(), lp_d))}>Withdraw</button>
             </div>
         </div>
     );
